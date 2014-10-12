@@ -48,7 +48,42 @@ describe('creating and testing credentials', function () {
 
     describe('when attempting to extend the expiration', function () {
       it('tests false', function () {
-        expect(mojoauth.testCredentials({ username: "#{(Time.now + 100_000).to_i}", password: credentials.password }, secret)).to.be.false;
+        expect(mojoauth.testCredentials({ username: (new Date().getTime() + 100000).toString(), password: credentials.password }, secret)).to.be.false;
+      });
+    });
+  });
+
+  describe('with an asserted ID', function () {
+    var id = mojoauth.createSecret()
+      , secret = mojoauth.createSecret()
+      , credentials
+      ;
+
+    beforeEach(function() {
+      credentials = mojoauth.createCredentials({id: id, secret: secret});
+    });
+
+    describe('for the generated credentials', function () {
+      it('tests truthy, returning the asserted ID', function () {
+        expect(mojoauth.testCredentials(credentials, secret)).to.eql(id);
+      });
+    });
+
+    describe('with an incorrect password', function () {
+      it('tests false', function () {
+        expect(mojoauth.testCredentials({ username: credentials.username, password: 'foobar' }, secret)).to.be.false;
+      });
+    });
+
+    describe('with a different secret', function () {
+      it('tests false', function () {
+        expect(mojoauth.testCredentials(credentials, 'something_else')).to.be.false;
+      });
+    });
+
+    describe('when attempting to extend the expiration', function () {
+      it('tests false', function () {
+        expect(mojoauth.testCredentials({ username: (new Date().getTime() + 100000).toString() + ':' + id, password: credentials.password }, secret)).to.be.false;
       });
     });
   });
