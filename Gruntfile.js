@@ -7,14 +7,6 @@ module.exports = function(grunt) {
         jshintrc: "./.jshintrc",
       }
     },
-    intern: {
-      unit: {
-        options: {
-          runType: 'client',
-          config: 'tests/intern'
-        }
-      }
-    },
     watch: {
       clear: {
         files: ['*'],
@@ -25,19 +17,24 @@ module.exports = function(grunt) {
       },
       implementation: {
         files: ['index.js'],
-        tasks: ['jshint', 'intern:unit']
+        tasks: ['jshint', 'mochaTest']
       },
       tests: {
         files: ['tests/**/*.js'],
-        tasks: ['jshint', 'intern:unit']
+        tasks: ['jshint', 'mochaTest']
       }
     },
+    mochaTest: {
+      all: {
+        src: 'tests/*.js'
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-clear');
-  grunt.loadNpmTasks('intern');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
-  grunt.registerTask('default', ['jshint', 'intern']);
+  grunt.registerTask('default', ['jshint', 'mochaTest']);
 };

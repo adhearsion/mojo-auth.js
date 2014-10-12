@@ -2,19 +2,16 @@
 
 'use strict';
 
-define([
-], function () {
-  return {
-    createSecret: function () {
-      return 'foo';
-    },
+var crypto = require('crypto');
 
-    createCredentials: function () {
+exports.createSecret = function () {
+  return crypto.randomBytes(64).toString('hex');
+};
 
-    },
+exports.createCredentials = function () {
 
-    testCredentials: function () {
+};
 
-    }
-  };
-});
+exports.testCredentials = function () {
+
+};
