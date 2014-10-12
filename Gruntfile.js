@@ -8,20 +8,16 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      clear: {
-        files: ['*'],
-        tasks: ['clear']
-      },
       grunt: {
-        files: ['Gruntfile.js']
+        files: ['clear', 'Gruntfile.js']
       },
       implementation: {
         files: ['index.js'],
-        tasks: ['jshint', 'mochaTest']
+        tasks: ['clear', 'jshint', 'mochaTest']
       },
       tests: {
         files: ['tests/**/*.js'],
-        tasks: ['jshint', 'mochaTest']
+        tasks: ['clear', 'jshint', 'mochaTest']
       }
     },
     mochaTest: {
