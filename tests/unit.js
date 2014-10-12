@@ -6,5 +6,5 @@ define([
     bdd.it('should run tests', function () {
       expect(2).eql(2);
     });
-  })
+  });
 });
