@@ -1,0 +1,19 @@
+{
+  "name": "mojo-auth.js",
+  "version": "0.0.0",
+  "description": "Implementation of MojoAuth in Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mojolingo/mojo-auth.js.git"
+  },
+  "author": "Ben Langfeld <ben@langfeld.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mojolingo/mojo-auth.js/issues"
+  },
+  "homepage": "https://github.com/mojolingo/mojo-auth.js"
+}
