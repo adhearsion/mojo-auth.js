@@ -48,11 +48,11 @@ define({
 	// can be used here
 	loader: {
 		// Packages that should be registered with the loader in each testing environment
-		packages: [ { name: 'mojo-auth.js', location: '.' } ]
+		packages: [ { name: 'mojo-auth', location: '.', main: 'index' } ]
 	},
 
 	// Non-functional test suite(s) to run in each browser
-	suites: [ 'mojo-auth.js/tests/unit' ],
+	suites: [ 'mojo-auth/tests/unit' ],
 
 	// Functional test suite(s) to run in each browser once non-functional tests are completed
 	functionalSuites: [ /* 'myPackage/tests/functional' */ ],

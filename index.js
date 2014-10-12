@@ -1,15 +1,20 @@
+/* global define */
+
 'use strict';
 
-module.exports = {
-  createSecret: function () {
+define([
+], function () {
+  return {
+    createSecret: function () {
+      return 'foo';
+    },
 
-  },
+    createCredentials: function () {
 
-  createCredentials: function () {
+    },
 
-  },
+    testCredentials: function () {
 
-  testCredentials: function () {
-
-  }
-};
+    }
+  };
+});

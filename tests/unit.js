@@ -1,10 +1,11 @@
 define([
   'intern!bdd'
   , 'intern/chai!expect'
-], function (bdd, expect) {
-  bdd.describe('mojo-auth', function () {
-    bdd.it('should run tests', function () {
-      expect(2).eql(2);
+  , 'intern/order!mojo-auth'
+], function (bdd, expect, mojoauth) {
+  bdd.describe('creating a secret', function () {
+    bdd.it('should be a string', function () {
+      expect(mojoauth.createSecret()).to.be.a('string');
     });
   });
 });
