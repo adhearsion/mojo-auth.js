@@ -11,25 +11,29 @@ Run `npm install mojo-auth.js --save` to add this library as a dependency to you
 ## Usage
 
 ```javascript
-var mojoauth = require('mojo-auth.js');
+> var mojoauth = require('mojo-auth.js');
 
-# Generate a shared secret
-var secret = mojoauth.createSecret();
-  # => "XyD+xeJHivzbOUe3vwdU6Z5vDe/vio34MxKX8HYViR0+p4t/NzaIpbK+9VwX\n5qHCj7m4f7UNRXgOJPXzn6MT0Q==\n"
+> var secret, credentials;
+undefined
 
-# Create temporary credentials
-var credentials = mojoauth.createCredentials({id: 'foobar', secret: secret});
-  # => {:username=>"1411837760:foobar", :password=>"wb6KxLj6NXcUaqNb1SlHH1V3QHw=\n"}
+// Generate a shared secret
+> secret = mojoauth.createSecret();
+'27058c65ab05794cdec23abb2ad49f402e011d1ff56b61d4a4c37032ced2d94df6cff260c4fee814d1f9ea35fa7a2962332f0b2c5415e753b329c328a62c86f8'
 
-# Test credentials
-mojoauth.testCredentials({username: "1411837760:foobar", password: "wb6KxLj6NXcUaqNb1SlHH1V3QHw=\n"}, secret: secret);
-  # => "foobar"
-mojoauth.testCredentials({username: "1411837760:foobar", password: "wrongpassword"}, secret: secret);
-  # => false
+// Create temporary credentials
+> credentials = mojoauth.createCredentials({id: 'foobar', secret: secret});
+{ username: '1413151933064:foobar',
+  password: 'lvpE3AcLea5Io4mj8xT/eMlvw9k=' }
 
-# 1 day later
-mojoauth.testCredentials({username: "1411837760:foobar", password: "wb6KxLj6NXcUaqNb1SlHH1V3QHw=\n"}, secret: secret);
-  # => false
+// Test credentials
+> mojoauth.testCredentials({username: '1413151933064:foobar', password: 'lvpE3AcLea5Io4mj8xT/eMlvw9k='}, secret);
+'foobar'
+> mojoauth.testCredentials({username: '1413151933064:foobar', password: 'wrongpassword'}, secret);
+false
+
+// 1 day later
+> mojoauth.testCredentials({username: '1413151933064:foobar', password: 'lvpE3AcLea5Io4mj8xT/eMlvw9k='}, secret);
+false
 ```
 
 ## Contributing
