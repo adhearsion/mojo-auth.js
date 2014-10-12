@@ -1,3 +1,5 @@
+/*jshint -W030 */
+
 var mojoauth = require('../index')
   , expect = require('chai').expect
   ;
