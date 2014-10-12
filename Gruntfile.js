@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      all: ['./*.js', 'tests/*.js'],
+      all: ['src/**/*.js', 'tests/*.js'],
       options: {
         jshintrc: "./.jshintrc",
       }
@@ -12,17 +12,22 @@ module.exports = function(grunt) {
         files: ['clear', 'Gruntfile.js']
       },
       implementation: {
-        files: ['index.js'],
-        tasks: ['clear', 'jshint', 'mochaTest']
+        files: ['src/**/*.js'],
+        tasks: ['clear', 'jshint', 'mochaTest', 'shell:docs']
       },
       tests: {
         files: ['tests/**/*.js'],
-        tasks: ['clear', 'jshint', 'mochaTest']
+        tasks: ['clear', 'jshint', 'mochaTest', 'shell:docs']
       }
     },
     mochaTest: {
       all: {
         src: 'tests/*.js'
+      }
+    },
+    shell: {
+      docs: {
+        command: 'node_modules/.bin/doxx --source src --target docs'
       }
     }
   });
@@ -31,6 +36,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-clear');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('default', ['jshint', 'mochaTest']);
+  grunt.registerTask('default', ['jshint', 'mochaTest', 'shell:docs']);
 };

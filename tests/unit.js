@@ -1,6 +1,6 @@
 /*jshint -W030 */
 
-var mojoauth = require('../index')
+var mojoauth = require('../src/index')
   , expect = require('chai').expect
   , Timecop = require('timecop')
   ;
