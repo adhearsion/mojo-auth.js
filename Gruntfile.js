@@ -14,10 +14,29 @@ module.exports = function(grunt) {
           config: 'tests/intern'
         }
       }
-    }
+    },
+    watch: {
+      clear: {
+        files: ['*'],
+        tasks: ['clear']
+      },
+      grunt: {
+        files: ['Gruntfile.js']
+      },
+      implementation: {
+        files: ['index.js'],
+        tasks: ['jshint', 'intern:unit']
+      },
+      tests: {
+        files: ['tests/**/*.js'],
+        tasks: ['jshint', 'intern:unit']
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-clear');
   grunt.loadNpmTasks('intern');
 
   grunt.registerTask('default', ['jshint', 'intern']);
