@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      all: ['src/**/*.js', 'tests/*.js'],
+      all: ['lib/**/*.js', 'test/*.js'],
       options: {
         jshintrc: "./.jshintrc",
       }
@@ -12,22 +12,22 @@ module.exports = function(grunt) {
         files: ['clear', 'Gruntfile.js']
       },
       implementation: {
-        files: ['src/**/*.js'],
+        files: ['lib/**/*.js'],
         tasks: ['clear', 'jshint', 'mochaTest', 'shell:docs']
       },
       tests: {
-        files: ['tests/**/*.js'],
+        files: ['test/**/*.js'],
         tasks: ['clear', 'jshint', 'mochaTest', 'shell:docs']
       }
     },
     mochaTest: {
       all: {
-        src: 'tests/*.js'
+        src: 'test/*.js'
       }
     },
     shell: {
       docs: {
-        command: 'node_modules/.bin/doxx --source src --target docs'
+        command: 'node_modules/.bin/doxx --source lib --target docs'
       }
     }
   });

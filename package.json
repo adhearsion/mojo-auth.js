@@ -2,7 +2,7 @@
   "name": "mojo-auth.js",
   "version": "0.1.0",
   "description": "Implementation of MojoAuth in Javascript",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "grunt"
   },
