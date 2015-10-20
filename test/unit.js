@@ -16,13 +16,19 @@ describe('creating a secret', function () {
 });
 
 describe('creating and testing credentials', function () {
+  var defaultTTL = 86400 * 1000;
+
   describe('without an asserted ID', function () {
     var credentials
       , secret = mojoauth.createSecret()
       ;
 
+    function createCredentials() {
+      credentials = mojoauth.createCredentials({ secret: secret });
+    }
+
     beforeEach(function() {
-      credentials = mojoauth.createCredentials({secret: secret});
+      createCredentials();
     });
 
     it('raises if no secret is given', function () {
@@ -53,39 +59,75 @@ describe('creating and testing credentials', function () {
       });
     });
 
-    describe('after the default TTL (1 day) expires', function () {
+    context('with the default TTL (1 day)', function () {
+      var currentDate = new Date();
+
       beforeEach(function () {
         Timecop.install();
-        Timecop.freeze(new Date().getTime() + 86400 + 1);
+        Timecop.freeze(currentDate);
+
+        createCredentials();
       });
 
       afterEach(function () {
         Timecop.uninstall();
       });
 
-      it('tests false', function () {
-        expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+      context('during the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(currentDate.getTime() + defaultTTL);
+        });
+
+        it('tests true', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.be.true;
+        });
+      });
+
+      context('after the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(currentDate.getTime() + defaultTTL + 1);
+        });
+
+        it('tests false', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+        });
       });
     });
 
-    describe('after expiry of a custom TTL', function () {
-      var ttl = 200;
-
-      beforeEach(function () {
-        credentials = mojoauth.createCredentials({secret: secret, ttl: ttl});
-      });
+    context('with a custom TTL', function () {
+      var ttl = 200,
+          currentDate = new Date(),
+          futureDate = new Date(currentDate.getTime() + (ttl * 1000));
 
       beforeEach(function () {
         Timecop.install();
-        Timecop.freeze(new Date().getTime() + ttl + 1);
+        Timecop.freeze(currentDate);
+
+        credentials = mojoauth.createCredentials({ secret: secret, ttl: ttl });
       });
 
       afterEach(function () {
         Timecop.uninstall();
       });
 
-      it('tests false', function () {
-        expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+      context('during the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(futureDate);
+        });
+
+        it('tests true', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.be.true;
+        });
+      });
+
+      context('after the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(futureDate.getTime() + 1);
+        });
+
+        it('tests false', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+        });
       });
     });
   });
@@ -96,8 +138,12 @@ describe('creating and testing credentials', function () {
       , credentials
       ;
 
-    beforeEach(function() {
+    function createCredentials() {
       credentials = mojoauth.createCredentials({id: id, secret: secret});
+    }
+
+    beforeEach(function() {
+      createCredentials();
     });
 
     describe('for the generated credentials', function () {
@@ -124,39 +170,75 @@ describe('creating and testing credentials', function () {
       });
     });
 
-    describe('after the default TTL (1 day) expires', function () {
+    context('with the default TTL (1 day)', function () {
+      var currentDate = new Date();
+
       beforeEach(function () {
         Timecop.install();
-        Timecop.freeze(new Date().getTime() + 86400 + 1);
+        Timecop.freeze(currentDate);
+
+        createCredentials();
       });
 
       afterEach(function () {
         Timecop.uninstall();
       });
 
-      it('tests false', function () {
-        expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+      context('during the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(currentDate.getTime() + defaultTTL);
+        });
+
+        it('tests truthy, returning the asserted ID', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.eql(id);
+        });
+      });
+
+      context('after the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(currentDate.getTime() + defaultTTL + 1);
+        });
+
+        it('tests false', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+        });
       });
     });
 
-    describe('after expiry of a custom TTL', function () {
-      var ttl = 200;
-
-      beforeEach(function () {
-        credentials = mojoauth.createCredentials({secret: secret, ttl: ttl});
-      });
+    context('with a custom TTL', function () {
+      var ttl = 200,
+          currentDate = new Date(),
+          futureDate = new Date(currentDate.getTime() + (ttl * 1000));
 
       beforeEach(function () {
         Timecop.install();
-        Timecop.freeze(new Date().getTime() + ttl + 1);
+        Timecop.freeze(currentDate);
+
+        credentials = mojoauth.createCredentials({ id: id, secret: secret, ttl: ttl });
       });
 
       afterEach(function () {
         Timecop.uninstall();
       });
 
-      it('tests false', function () {
-        expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+      context('during the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(futureDate);
+        });
+
+        it('tests truthy, returning the asserted ID', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.eql(id);
+        });
+      });
+
+      context('after the window', function () {
+        beforeEach(function () {
+          Timecop.freeze(futureDate.getTime() + 1);
+        });
+
+        it('tests false', function () {
+          expect(mojoauth.testCredentials(credentials, secret)).to.be.false;
+        });
       });
     });
   });
