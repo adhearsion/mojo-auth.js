@@ -84,8 +84,10 @@ describe('creating and testing credentials', function () {
       });
 
       context('after the window', function () {
+        var oneSecond = 1 * 1000;
+
         beforeEach(function () {
-          Timecop.freeze(currentDate.getTime() + defaultTTL + 1);
+          Timecop.freeze(currentDate.getTime() + defaultTTL + oneSecond);
         });
 
         it('tests false', function () {
@@ -121,8 +123,10 @@ describe('creating and testing credentials', function () {
       });
 
       context('after the window', function () {
+        var oneSecond = 1 * 1000;
+
         beforeEach(function () {
-          Timecop.freeze(futureDate.getTime() + 1);
+          Timecop.freeze(futureDate.getTime() + oneSecond);
         });
 
         it('tests false', function () {
@@ -195,8 +199,10 @@ describe('creating and testing credentials', function () {
       });
 
       context('after the window', function () {
+        var oneSecond = 1 * 1000;
+
         beforeEach(function () {
-          Timecop.freeze(currentDate.getTime() + defaultTTL + 1);
+          Timecop.freeze(currentDate.getTime() + defaultTTL + oneSecond);
         });
 
         it('tests false', function () {
@@ -232,8 +238,10 @@ describe('creating and testing credentials', function () {
       });
 
       context('after the window', function () {
+        var oneSecond = 1 * 1000;
+
         beforeEach(function () {
-          Timecop.freeze(futureDate.getTime() + 1);
+          Timecop.freeze(futureDate.getTime() + oneSecond);
         });
 
         it('tests false', function () {
